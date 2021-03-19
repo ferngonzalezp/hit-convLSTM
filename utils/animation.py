@@ -1,5 +1,11 @@
 import matplotlib.animation as animation
 from matplotlib.animation import FuncAnimation, PillowWriter  
+import matplotlib.pyplot as plt
+import torch
+
+def magnitude(x):
+  return (torch.sum(x.float().square(),dim=0)).sqrt()
+
 def fluid_anim(field,name):
   ims = []
   fig = plt.figure(figsize=(12,5))
