@@ -4,7 +4,7 @@ from pytorch_lightning import Trainer
 from pytorch_lightning.callbacks import ModelCheckpoint
 import torch
 from HIT_convttlstm import convttlstm
-from HIT_dataset import hit_dm 
+from HIT_dataset import hit_dm
 
 def main(hparams):
     checkpoint_callback = ModelCheckpoint(
@@ -18,9 +18,9 @@ def main(hparams):
     dm = hit_dm(hparams)
     trainer = Trainer.from_argparse_args(hparams,checkpoint_callback=checkpoint_callback,
                          auto_select_gpus = True,
-                         precision = 16,
                          progress_bar_refresh_rate=1)   
     trainer.fit(model, datamodule = dm)
+    trainer.test()
 
 if __name__ == '__main__':
     parser = ArgumentParser(add_help=False)
