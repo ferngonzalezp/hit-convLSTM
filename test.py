@@ -7,12 +7,14 @@ from HIT_convttlstm import convttlstm
 from HIT_dataset import hit_dm 
 
 def main(hparams):
+    model = convttlstm.load_from_checkpoint(args.ckpt_path, output_frames=args.output_frames,
+            input_frames=args.input_frames, future_frames=args.future_frames)
     dm = hit_dm(hparams)
     trainer = Trainer.from_argparse_args(hparams,
                          auto_select_gpus = True,
-                         precision = 16,
+                         precision = 32,
                          progress_bar_refresh_rate=1)   
-    trainer.test(model, datamodule = dm, ckpt_path=args.ckpt_path)
+    trainer.test(model, datamodule = dm)
 
 if __name__ == '__main__':
     parser = ArgumentParser(add_help=False)
