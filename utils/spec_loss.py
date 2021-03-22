@@ -5,7 +5,7 @@ from torch.fft import fftn
 from torch import conj
 
 def spec(field,lx=2*np.pi/4,smooth=False):
-  n = field.shape[-1]
+  n = field.shape[-1]***3
   nt = field.shape[1]
   result = []
   for i in range(nt):
