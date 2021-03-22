@@ -1,18 +1,25 @@
 import numpy as np
 import torch
 import torch.nn.functional as F
+from torch.fft import fftn
+from torch import conj
 
 def spec(field,lx=2*np.pi/4,smooth=False):
   n = field.shape[-1]
   nt = field.shape[1]
   result = []
   for i in range(nt):
+    '''
     uh = torch.rfft(field[:,i,0],1,onesided=False)/n
     vh = torch.rfft(field[:,i,1],1,onesided=False)/n
     wh = torch.rfft(field[:,i,2],1,onesided=False)/n
-    uspec = 0.5 * (uh[:,:,:,0]**2+uh[:,:,:,1]**2)
-    vspec = 0.5 * (vh[:,:,:,0]**2+vh[:,:,:,1]**2)
-    wspec = 0.5 * (wh[:,:,:,0]**2+wh[:,:,:,1]**2)
+    '''
+    uh = fftn(field[:,i,0])/n
+    vh = fftn(field[:,i,1])/n
+    wh = fftn(field[:,i,2])/n
+    uspec = 0.5 * (uh*conj(uh)).real
+    vspec = 0.5 * (vh*conj(vh)).real
+    wspec = 0.5 * (wh*conj(wh)).real
     uspec = uspec.reshape(uspec.shape[0],1,n,n)
     vspec = vspec.reshape(vspec.shape[0],1,n,n)
     wspec = wspec.reshape(wspec.shape[0],1,n,n)
@@ -33,6 +40,6 @@ def spec(field,lx=2*np.pi/4,smooth=False):
   return wave_numbers, spec
 
 def spec_loss(x,y):
-    _, ex = spec(x)
-    _, ey = spec(y)
+    _, ex = spec(x.float())
+    _, ey = spec(y.float())
     return F.l1_loss(ex,ey) + F.mse_loss(ex,ey)
