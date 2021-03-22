@@ -79,7 +79,7 @@ class convttlstm(LightningModule):
       return pred
 
   def loss(self,output,target):
-    return F.l1_loss(output,target) + F.mse_loss(output,target) + 1e3*spec_loss(output,target)
+    return F.l1_loss(output,target) + F.mse_loss(output,target) + 1*spec_loss(output,target)
   
   def training_step(self,batch,batch_idx):
 
