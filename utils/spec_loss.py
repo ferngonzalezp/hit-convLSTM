@@ -5,7 +5,7 @@ from torch.fft import fftn
 from torch import conj
 
 def spec(field,lx=2*np.pi/4,smooth=False):
-  n = field.shape[-1]***3
+  n = field.shape[-1]
   nt = field.shape[1]
   result = []
   for i in range(nt):
@@ -14,9 +14,9 @@ def spec(field,lx=2*np.pi/4,smooth=False):
     vh = torch.rfft(field[:,i,1],1,onesided=False)/n
     wh = torch.rfft(field[:,i,2],1,onesided=False)/n
     '''
-    uh = fftn(field[:,i,0])/n
-    vh = fftn(field[:,i,1])/n
-    wh = fftn(field[:,i,2])/n
+    uh = fftn(field[:,i,0])/n**3
+    vh = fftn(field[:,i,1])/n**3
+    wh = fftn(field[:,i,2])/n**3
     uspec = 0.5 * (uh*conj(uh)).real
     vspec = 0.5 * (vh*conj(vh)).real
     wspec = 0.5 * (wh*conj(wh)).real

@@ -17,4 +17,5 @@ def fluid_anim(field,name):
                                   repeat_delay=1000)
 
   writer = PillowWriter(fps=8)
+  plt.ioff()
   ani.save(name+".gif", writer=writer)
