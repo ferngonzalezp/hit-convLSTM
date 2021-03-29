@@ -79,7 +79,7 @@ class convttlstm(LightningModule):
       return pred
 
   def loss(self,output,target):
-    return F.l1_loss(output,target) + F.mse_loss(output,target) + 1*spec_loss(output,target)
+    return F.l1_loss(output,target) + F.mse_loss(output,target) + 10*spec_loss(output,target)
   
   def training_step(self,batch,batch_idx):
 
@@ -144,6 +144,7 @@ class convttlstm(LightningModule):
     plt.plot(k,torch.mean(E[:,0,0,:],dim=0).cpu(),label='predicted')
     plt.plot(k,torch.mean(E_o[:,0,0,:],dim=0).cpu(),label='original')
     plt.legend()
+    plt.plt.ioff()
     plt.savefig('avg_spectrum.png')
     fig = plt.figure()
     plt.subplot(2,3,1)
@@ -164,6 +165,7 @@ class convttlstm(LightningModule):
     plt.subplot(2,3,6)
     plt.imshow(magnitude(pred[0,-1]).float().cpu())
     plt.title('t = '+str(origin.shape[1]-1))
+    plt.ioff()
     plt.savefig('velocity.png')
 
 
