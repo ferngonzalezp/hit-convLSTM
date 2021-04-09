@@ -144,7 +144,7 @@ class convttlstm(LightningModule):
     plt.plot(k,torch.mean(E[:,0,0,:],dim=0).cpu(),label='predicted')
     plt.plot(k,torch.mean(E_o[:,0,0,:],dim=0).cpu(),label='original')
     plt.legend()
-    plt.plt.ioff()
+    plt.ioff()
     plt.savefig('avg_spectrum.png')
     fig = plt.figure()
     plt.subplot(2,3,1)
